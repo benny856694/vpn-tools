@@ -2,7 +2,6 @@
 <br />
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FChronosMasterOfAllTime%2Fvue-vite-tw-ts.svg?type=small)](https://app.fossa.com/projects/git%2Bgithub.com%2FChronosMasterOfAllTime%2Fvue-vite-tw-ts?ref=badge_small)
 
-
 # Vue 3 + Typescript + Vite
 
 This template should help get you started developing with Vue 3 and Typescript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
@@ -43,3 +42,5 @@ Since TypeScript cannot handle type information for `.vue` imports, they are shi
   - Run linter checks (configurable via `.eslintrc`)
 - `npm run format`
   - Run Prettier formatting for all files
+
+  try push to triger build
