@@ -7,8 +7,12 @@
   >
     <NMessageProvider>
       <n-layout position="absolute">
-        <n-layout-header style="height: 64px; padding: 24px" bordered>
-          <div class="text-right">
+        <n-layout-header
+          style="height: 64px; padding: 0 24px 24px 24px"
+          bordered
+        >
+          <div class="flex flex-row justify-between items-center">
+            <h2>VPN Tools</h2>
             <n-switch v-model:value="mode" data-cy="dark-mode">
               <template #checked> Dark </template>
               <template #unchecked> Light </template>
@@ -40,9 +44,10 @@
             bordered
             show-trigger="arrow-circle"
           >
-            <n-h2>VPN tools</n-h2>
-            <n-h3><RouterLink to="/">Home</RouterLink></n-h3>
-            <n-h3><RouterLink to="/vlessmod">Vless Mod</RouterLink></n-h3>
+            <div class="text-left m-4">
+              <h3><RouterLink to="/">Home</RouterLink></h3>
+              <h3><RouterLink to="/vlessmod">Vless Mod</RouterLink></h3>
+            </div>
           </n-layout-sider>
           <n-layout-content :native-scrollbar="false">
             <router-view class="m-2" />
@@ -54,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-import { darkTheme, lightTheme, NMessageProvider } from 'naive-ui'
+import { darkTheme, lightTheme, NMessageProvider, NH1 } from 'naive-ui'
 import { computed, ref, watchEffect } from 'vue'
 import { appTheme } from '@/lib'
 
