@@ -35,16 +35,14 @@
           class="fixed h-full"
           collapse-mode="transform"
           :width="240"
-          :collapsed="collapsed"
           :native-scrollbar="false"
           bordered
-          @mouseover="collapsed = false"
-          @mouseleave="collapsed = true"
+          show-trigger="arrow-circle"
         >
           <n-h2>Layout Sider</n-h2>
         </n-layout-sider>
         <n-layout-content :native-scrollbar="false">
-          <router-view />
+          <router-view class="m-2" />
         </n-layout-content>
       </n-layout>
     </n-layout>
