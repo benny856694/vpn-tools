@@ -3,7 +3,9 @@
     <NH2 align-text>
       <NText type="info">
         This tool looks up the geolocation of the vless server, and append the
-        geolocation to the name of the server
+        geolocation to the name of the server. e.g.
+        vless://uuid@ip:port?remarks=server1 will be converted to
+        vless://uuid@ip:port?remarks=server1(US)
       </NText>
     </NH2>
     <div class="flex flex-row gap-x-2 m-2 items-center text-left">
@@ -24,7 +26,7 @@
           v-model:value="orgUrls"
           type="textarea"
           placeholder="original vless urls, can contain multiple urls. each url starts with vless://"
-          rows="30"
+          rows="20"
           >original url</NInput
         >
       </NFlex>
@@ -57,7 +59,7 @@
           v-model:value="modUrls"
           type="textarea"
           placeholder="modified url"
-          rows="30"
+          rows="20"
           >modified url</NInput
         >
       </NFlex>
