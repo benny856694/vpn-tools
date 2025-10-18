@@ -23,6 +23,7 @@ if (process.env.CYPRESS_TEST === 'true') {
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  base: '/vpn-tools/',
   plugins,
   css: {
     postcss: {
