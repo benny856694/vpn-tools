@@ -1,11 +1,5 @@
 <template>
   <div class="text-center">
-    <img
-      class="pt-10 mx-auto mb-4"
-      alt="Chronos logo"
-      data-cy="chronos-logo"
-      src="@/assets/chronos.jpg"
-    />
     <h1>{{ msg }}</h1>
     <p>
       Recommended IDE setup:
