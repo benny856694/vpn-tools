@@ -43,6 +43,7 @@
             :collapsed-width="64"
             :native-scrollbar="false"
             bordered
+            :collapsed="collapsed"
             show-trigger="arrow-circle"
             @collapse="collapsed = true"
             @expand="collapsed = false"
@@ -125,7 +126,7 @@ watchEffect(() => {
   localStorage.setItem('dark', `${mode.value}`)
 })
 
-const collapsed = ref(true)
+const collapsed = ref(false)
 </script>
 
 <style lang="sass">
