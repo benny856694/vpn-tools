@@ -38,16 +38,21 @@
           <n-layout-sider
             data-cy="sidebar"
             class="fixed h-full"
-            collapse-mode="transform"
-            :width="240"
+            collapse-mode="width"
+            :width="180"
+            :collapsed-width="64"
             :native-scrollbar="false"
             bordered
             show-trigger="arrow-circle"
+            @collapse="collapsed = true"
+            @expand="collapsed = false"
           >
-            <div class="text-left m-4">
-              <h3><RouterLink to="/">Home</RouterLink></h3>
-              <h3><RouterLink to="/vlessmod">Vless Mod</RouterLink></h3>
-            </div>
+            <NMenu
+              :options="menuOptions"
+              :collapsed="collapsed"
+              :collapsed-width="64"
+              :collapsed-icon-size="22"
+            />
           </n-layout-sider>
           <n-layout-content :native-scrollbar="false">
             <router-view class="m-2" />
@@ -59,9 +64,14 @@
 </template>
 
 <script setup lang="ts">
-import { darkTheme, lightTheme, NMessageProvider, NH1 } from 'naive-ui'
+import { darkTheme, lightTheme, NMessageProvider, NMenu, NIcon } from 'naive-ui'
+import type { MenuOption } from 'naive-ui'
 import { computed, ref, watchEffect } from 'vue'
+import type { Component } from 'vue'
 import { appTheme } from '@/lib'
+import { h } from 'vue'
+import { RouterLink } from 'vue-router'
+import { HomeFilled, LinkFilled } from '@vicons/material'
 
 const darkStore = localStorage.getItem('dark')
 const prefersDark: boolean = darkStore
@@ -72,6 +82,44 @@ const mode = ref<boolean>(prefersDark)
 const darkMode = computed(() => mode.value)
 
 const theme = computed(() => (mode.value ? darkTheme : lightTheme))
+
+function renderIcon(icon: Component) {
+  return () => h(NIcon, null, { default: () => h(icon) })
+}
+
+const menuOptions: MenuOption[] = [
+  {
+    label: () =>
+      h(
+        RouterLink,
+        {
+          to: {
+            name: 'home',
+            params: {
+              lang: 'zh-CN'
+            }
+          }
+        },
+        { default: () => 'Home' }
+      ),
+    key: 'go-back-home',
+    icon: renderIcon(HomeFilled)
+  },
+  {
+    label: () =>
+      h(
+        RouterLink,
+        {
+          to: {
+            name: 'vlessmod'
+          }
+        },
+        { default: () => 'Vless Mod' }
+      ),
+    key: 'go-to-work',
+    icon: renderIcon(LinkFilled)
+  }
+]
 
 watchEffect(() => {
   localStorage.setItem('dark', `${mode.value}`)
