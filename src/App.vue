@@ -30,7 +30,7 @@
           </div>
         </n-layout-header>
         <n-layout
-          class="bg-white dark:bg-gray-800 dark:text-white text-gray-800 text-center h-screen w-screen"
+          class="bg-white dark:bg-gray-800 dark:text-white text-gray-800 h-screen w-screen"
           has-sider
           position="absolute"
           style="top: 64px; bottom: 64px"
