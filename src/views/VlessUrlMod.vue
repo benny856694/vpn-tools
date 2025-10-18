@@ -1,14 +1,6 @@
 <template>
-  <div class="p-2 text-left">
-    <NH2 align-text>
-      <NText type="info">
-        This tool looks up the geolocation of the vless server, and append the
-        geolocation to the name of the server. e.g.
-        vless://uuid@ip:port?remarks=server1 will be converted to
-        vless://uuid@ip:port?remarks=server1(US)
-      </NText>
-    </NH2>
-    <div class="flex flex-row gap-x-2 m-2 items-center text-left">
+  <div class="p-4 text-left">
+    <div class="flex flex-row gap-2 items-center text-left mb-4">
       <NFlex class="flex-1" justify="end">
         <NButtonGroup size="small">
           <n-button
@@ -64,6 +56,12 @@
         >
       </NFlex>
     </div>
+    <NText type="info" >
+      This tool looks up the geolocation of the vless server, and append the
+      geolocation to the name of the server. e.g.
+      vless://uuid@ip:port?remarks=server1 will be converted to
+      vless://uuid@ip:port?remarks=server1(US)
+    </NText>
   </div>
 </template>
 
@@ -72,7 +70,6 @@ import { ref } from 'vue'
 import {
   NInput,
   NButton,
-  NH2,
   NText,
   NFlex,
   useMessage,
