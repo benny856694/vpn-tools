@@ -40,7 +40,9 @@
             bordered
             show-trigger="arrow-circle"
           >
-            <n-h2>Layout Sider</n-h2>
+            <n-h2>VPN tools</n-h2>
+            <n-h3><RouterLink to="/">Home</RouterLink></n-h3>
+            <n-h3><RouterLink to="/vlessmod">Vless Mod</RouterLink></n-h3>
           </n-layout-sider>
           <n-layout-content :native-scrollbar="false">
             <router-view class="m-2" />
