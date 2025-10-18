@@ -2,7 +2,7 @@
   <div class="p-4 text-left">
     <div class="flex flex-row gap-2 items-center text-left mb-4">
       <NFlex class="flex-1" justify="end">
-        <NButtonGroup size="small">
+        <NButtonGroup size="tiny">
           <n-button
             type="error"
             :disabled="orgUrls?.length == 0"
@@ -19,8 +19,7 @@
           type="textarea"
           placeholder="original vless urls, can contain multiple urls. each url starts with vless://"
           rows="20"
-          >original url</NInput
-        >
+        />
       </NFlex>
       <NButton
         :disabled="loading || orgUrls?.length == 0"
@@ -29,7 +28,7 @@
         >Convert</NButton
       >
       <NFlex class="flex-1" justify="end">
-        <NButtonGroup size="small">
+        <NButtonGroup size="tiny">
           <n-button
             type="error"
             :disabled="modUrls?.length == 0"
@@ -52,11 +51,10 @@
           type="textarea"
           placeholder="modified url"
           rows="20"
-          >modified url</NInput
-        >
+        />
       </NFlex>
     </div>
-    <NText type="info" >
+    <NText type="info">
       This tool looks up the geolocation of the vless server, and append the
       geolocation to the name of the server. e.g.
       vless://uuid@ip:port?remarks=server1 will be converted to
