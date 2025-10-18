@@ -1,4 +1,4 @@
-// vless://xxxxxx@g.mumi.uk:25806/?type=tcp&security=reality&sni=xxx&pbk=xxxxxx&flow=xtls-rprx-vision&sid=xxxx&fp=chrome#planb-1
+// vless://xxxxxx@host-name.com:25806/?type=tcp&security=reality&sni=xxx&pbk=xxxxxx&flow=xtls-rprx-vision&sid=xxxx&fp=chrome#planb-1
 //parse the above URL and return the following components: host name, name (after #)
 export function parseVlessUrl(url: string) {
   const urlObj = new URL(url);
