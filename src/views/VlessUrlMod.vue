@@ -61,7 +61,10 @@
       vless://uuid@ip:port?remarks=server1(US).
     </NText>
     <p>
-      <NText type="warning"> Note: please use http to run this tool, since the api to look up geolocation is accessed via http</NText>
+      <NText type="warning">
+        Note: please use http to run this tool, since the api to look up
+        geolocation is accessed via http</NText
+      >
     </p>
   </div>
 </template>
@@ -87,6 +90,8 @@ async function convert() {
   try {
     const result = await appendGeolocationToVlessNames(orgUrls.value)
     modUrls.value = result
+  } catch (error) {
+    message.error(`Error occurred during conversion: ${error}`)
   } finally {
     loading.value = false
   }
