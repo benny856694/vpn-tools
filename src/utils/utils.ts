@@ -50,5 +50,5 @@ export async function appendGeolocationToVlessNames(input: string): Promise<stri
       return url; // return original URL if there's an error
     }
   }));
-  return updatedUrls.join('\n');
+  return updatedUrls.join('\n\n');
 }

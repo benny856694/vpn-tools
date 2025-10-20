@@ -58,8 +58,11 @@
       This tool looks up the geolocation of the vless server, and append the
       geolocation to the name of the server. e.g.
       vless://uuid@ip:port?remarks=server1 will be converted to
-      vless://uuid@ip:port?remarks=server1(US)
+      vless://uuid@ip:port?remarks=server1(US).
     </NText>
+    <p>
+      <NText type="warning"> Note: please use http to run this tool, since the api to look up geolocation is accessed via http</NText>
+    </p>
   </div>
 </template>
 
