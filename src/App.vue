@@ -12,7 +12,7 @@
           bordered
         >
           <div class="flex flex-row justify-between items-center">
-            <h2>VPN Tools</h2>
+            <h2>My Tools</h2>
             <n-switch v-model:value="mode" data-cy="dark-mode">
               <template #checked> Dark </template>
               <template #unchecked> Light </template>

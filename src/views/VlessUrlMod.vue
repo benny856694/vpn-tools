@@ -24,6 +24,7 @@
       <NButton
         :disabled="loading || orgUrls?.length == 0"
         :loading="loading"
+        type="primary"
         @click="convert"
         >Convert</NButton
       >
