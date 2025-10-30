@@ -1,28 +1,27 @@
 <template>
   <div class="p-4">
-    <NForm ref="formRef">
-      <NFormItem path="age" label="Age">
+    <n-form ref="formRef" inline>
+      <n-form-item path="age" label="Name">
+        <NInput readonly @keydown.enter.prevent />
+      </n-form-item>
+      <NFormItem path="password" label="Md5">
         <NInput @keydown.enter.prevent />
       </NFormItem>
-      <NFormItem path="password" label="Password">
-        <NInput type="password" @keydown.enter.prevent />
+      <NFormItem path="password" label="Size">
+        <NInput @keydown.enter.prevent />
       </NFormItem>
       <NFormItem
         ref="rPasswordFormItemRef"
         first
         path="reenteredPassword"
-        label="Re-enter Password"
+        label="Url"
       >
-        <NInput type="password" @keydown.enter.prevent />
+        <NInput width="160" @keydown.enter.prevent />
       </NFormItem>
-      <NRow :gutter="[0, 24]">
-        <NCol :span="24">
-          <div style="display: flex; justify-content: flex-end">
-            <NButton type="primary" @click="add"> Add </NButton>
-          </div>
-        </NCol>
-      </NRow>
-    </NForm>
+      <n-form-item>
+        <NButton type="primary" @click="add"> Add </NButton>
+      </n-form-item>
+    </n-form>
     <div class="mt-8">
       <div v-if="isPending">Loading...</div>
       <div v-else>
@@ -41,7 +40,7 @@ import { useConvexQuery, useConvexMutation } from 'convex-vue'
 import { api } from '../../convex/_generated/api'
 import { NForm, NInput, NButton, NFormItem, NRow, NCol } from 'naive-ui'
 
-const { data, isPending } = useConvexQuery(api.pet.getFirmwares)
+const { data, isPending } = useConvexQuery(api.pet.getFirmwares, {})
 const addFirmware = useConvexMutation(api.pet.addFirmware)
 
 const add = async (data: any) => {
