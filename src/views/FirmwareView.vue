@@ -1,28 +1,23 @@
 <template>
   <div class="p-4">
-    <n-form ref="formRef" inline>
-      <n-form-item path="age" label="Name">
+    <n-form ref="formRef" inline :model="formValue" :rules="rules">
+      <!-- <n-form-item path="age" label="Name">
         <NInput readonly @keydown.enter.prevent />
-      </n-form-item>
-      <NFormItem path="password" label="Md5">
-        <NInput @keydown.enter.prevent />
+      </n-form-item> -->
+      <NFormItem path="md5" label="Md5">
+        <NInput v-model:value.trim="formValue.md5" @keydown.enter.prevent />
       </NFormItem>
-      <NFormItem path="password" label="Size">
-        <NInput @keydown.enter.prevent />
+      <NFormItem path="size" label="Size">
+        <NInput v-model:value.trim="formValue.size" @keydown.enter.prevent />
       </NFormItem>
-      <NFormItem
-        ref="rPasswordFormItemRef"
-        first
-        path="reenteredPassword"
-        label="Url"
-      >
-        <NInput width="160" @keydown.enter.prevent />
+      <NFormItem ref="rPasswordFormItemRef" first path="url" label="Url">
+        <NInput v-model:value.trim="formValue.url" width="160" @keydown.enter.prevent />
       </NFormItem>
       <n-form-item>
-        <NButton type="primary" @click="add"> Add </NButton>
+        <NButton type="primary" :loading="isMutatePending" @click="handleAdd"> Add </NButton>
       </n-form-item>
     </n-form>
-    <div class="mt-8">
+    <div class="mt-2">
       <div v-if="isPending">Loading...</div>
       <div v-else>
         <div v-for="fw in data" :key="fw._id" class="mb-2 p-2 border rounded">
@@ -38,16 +33,55 @@
 <script setup lang="ts">
 import { useConvexQuery, useConvexMutation } from 'convex-vue'
 import { api } from '../../convex/_generated/api'
-import { NForm, NInput, NButton, NFormItem, NRow, NCol } from 'naive-ui'
+import { NForm, NInput, NButton, NFormItem } from 'naive-ui'
+import type { FormInst } from 'naive-ui'
+import { ref } from 'vue'
 
 const { data, isPending } = useConvexQuery(api.pet.getFirmwares, {})
-const addFirmware = useConvexMutation(api.pet.addFirmware)
+const { mutate, isPending: isMutatePending } = useConvexMutation(api.pet.addFirmware)
 
-const add = async (data: any) => {
-  await addFirmware.mutate({
-    path: 'some path',
-    md5: 'some md5',
-    size: '12345'
+const formRef = ref<FormInst | null>(null)
+const rules = {
+  md5: {
+    required: true,
+    message: 'Please input md5',
+    trigger: 'blur'
+  },
+  size: {
+    required: true,
+    message: 'Please input size',
+    trigger: ['input', 'blur']
+  },
+
+  url: {
+    required: true,
+    message: 'Please input url',
+    trigger: ['input']
+  }
+}
+const formValue = ref({
+  name: '',
+  md5: '',
+  size: '',
+  url: ''
+})
+
+const handleAdd = async (e: MouseEvent) => {
+  e.preventDefault()
+  formRef?.value?.validate(async (errors) => {
+    if (!errors) {
+      await mutate({
+        path: formValue.value.url,
+        md5: formValue.value.md5,
+        size: formValue.value.size
+      })
+      formValue.value.md5 = ''
+      formValue.value.size = ''
+      formValue.value.url = ''
+    } else {
+      console.log('error submit!!')
+      return false
+    }
   })
 }
 </script>
