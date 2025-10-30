@@ -72,7 +72,7 @@ import type { Component } from 'vue'
 import { appTheme } from '@/lib'
 import { h } from 'vue'
 import { RouterLink } from 'vue-router'
-import { HomeFilled, LinkFilled } from '@vicons/material'
+import { HomeFilled, LinkFilled, PetsFilled } from '@vicons/material'
 
 const darkStore = localStorage.getItem('dark')
 const prefersDark: boolean = darkStore
@@ -117,8 +117,22 @@ const menuOptions: MenuOption[] = [
         },
         { default: () => 'Vless Mod' }
       ),
-    key: 'go-to-work',
+    key: 'vless-mod-view',
     icon: renderIcon(LinkFilled)
+  },
+  {
+    label: () =>
+      h(
+        RouterLink,
+        {
+          to: {
+            name: 'firmware'
+          }
+        },
+        { default: () => 'Firmwares' }
+      ),
+    key: 'firmware-view',
+    icon: renderIcon(PetsFilled)
   }
 ]
 

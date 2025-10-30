@@ -18,6 +18,14 @@ const router = createRouter({
       props: {
         msg: 'Hello Vue 3 + TypeScript + Vite + Tailwind CSS/UI + Pinia + Vue Router'
       }
+    },
+    {
+      path: '/firmware',
+      name: 'firmware',
+      component: () => import('@/views/FirmwareView.vue'),
+      props: {
+        msg: 'Hello Vue 3 + TypeScript + Vite + Tailwind CSS/UI + Pinia + Vue Router'
+      }
     }
   ]
 })
