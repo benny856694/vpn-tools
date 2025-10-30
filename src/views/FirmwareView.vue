@@ -23,6 +23,16 @@
         </NCol>
       </NRow>
     </NForm>
+    <div class="mt-8">
+      <div v-if="isPending">Loading...</div>
+      <div v-else>
+        <div v-for="fw in data" :key="fw._id" class="mb-2 p-2 border rounded">
+          <div>Path: {{ fw.path }}</div>
+          <div>MD5: {{ fw.md5 }}</div>
+          <div>Size: {{ fw.size }}</div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -31,6 +41,7 @@ import { useConvexQuery, useConvexMutation } from 'convex-vue'
 import { api } from '../../convex/_generated/api'
 import { NForm, NInput, NButton, NFormItem, NRow, NCol } from 'naive-ui'
 
+const { data, isPending } = useConvexQuery(api.pet.getFirmwares)
 const addFirmware = useConvexMutation(api.pet.addFirmware)
 
 const add = async (data: any) => {

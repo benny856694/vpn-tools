@@ -1,4 +1,4 @@
-import { mutation } from './_generated/server'
+import { mutation, query } from './_generated/server'
 import { v } from 'convex/values'
 
 export const addFirmware = mutation({
@@ -13,5 +13,11 @@ export const addFirmware = mutation({
       md5: args.md5,
       size: args.size
     })
+  }
+})
+
+export const getFirmwares = query({
+  handler: async (ctx) => {
+    return await ctx.db.query('firmwares').collect()
   }
 })
