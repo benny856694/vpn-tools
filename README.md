@@ -43,4 +43,4 @@ Since TypeScript cannot handle type information for `.vue` imports, they are shi
 - `npm run format`
   - Run Prettier formatting for all files
 
-  try push to triger build 1
+  try push to triger build
