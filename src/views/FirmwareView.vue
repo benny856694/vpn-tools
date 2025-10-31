@@ -10,8 +10,8 @@
       <NFormItem path="size" label="Size">
         <NInput v-model:value.trim="formValue.size" @keydown.enter.prevent />
       </NFormItem>
-      <NFormItem ref="rPasswordFormItemRef" first path="url" label="Url">
-        <NInput v-model:value.trim="formValue.url" width="160" @keydown.enter.prevent />
+      <NFormItem ref="rPasswordFormItemRef" first path="fileName" label="File Name">
+        <NInput v-model:value.trim="formValue.fileName" width="160" @keydown.enter.prevent />
       </NFormItem>
       <n-form-item>
         <NButton type="primary" :loading="isMutatePending" @click="handleAdd"> Add </NButton>
@@ -21,7 +21,7 @@
       <div v-if="isPending">Loading...</div>
       <div v-else>
         <div v-for="fw in data" :key="fw._id" class="mb-2 p-2 border rounded">
-          <div>Path: {{ fw.path }}</div>
+          <div>File Name: {{ fw.fileName }}</div>
           <div>MD5: {{ fw.md5 }}</div>
           <div>Size: {{ fw.size }}</div>
         </div>
@@ -53,7 +53,7 @@ const rules = {
     trigger: ['input', 'blur']
   },
 
-  url: {
+  fileName: {
     required: true,
     message: 'Please input url',
     trigger: ['input']
@@ -63,7 +63,7 @@ const formValue = ref({
   name: '',
   md5: '',
   size: '',
-  url: ''
+  fileName: ''
 })
 
 const handleAdd = async (e: MouseEvent) => {
@@ -71,13 +71,13 @@ const handleAdd = async (e: MouseEvent) => {
   formRef?.value?.validate(async (errors) => {
     if (!errors) {
       await mutate({
-        path: formValue.value.url,
+        fileName: formValue.value.fileName,
         md5: formValue.value.md5,
         size: formValue.value.size
       })
       formValue.value.md5 = ''
       formValue.value.size = ''
-      formValue.value.url = ''
+      formValue.value.fileName = ''
     } else {
       console.log('error submit!!')
       return false

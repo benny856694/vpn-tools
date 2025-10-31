@@ -3,13 +3,13 @@ import { v } from 'convex/values'
 
 export const addFirmware = mutation({
   args: {
-    path: v.string(),
+    fileName: v.string(),
     md5: v.string(),
     size: v.string()
   },
   handler: async (ctx, args) => {
     await ctx.db.insert('firmwares', {
-      path: args.path,
+      fileName: args.fileName,
       md5: args.md5,
       size: args.size
     })
