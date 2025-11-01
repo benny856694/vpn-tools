@@ -21,3 +21,9 @@ export const getFirmwares = query({
     return await ctx.db.query('firmwares').collect()
   }
 })
+
+export const getSources = query({
+  handler: async (ctx) => {
+    return await ctx.db.query('sources').collect()
+  }
+})
