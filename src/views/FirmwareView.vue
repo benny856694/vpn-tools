@@ -156,7 +156,7 @@ const sourceOptions = computed(() => {
 const targetFirmwareOptions = computed(() => {
   return targetFirmwares.value
     ? targetFirmwares.value.map((fw: Doc<'firmwares'>) => ({
-        label: fw.fileName,
+        label: fw.name ?? fw.fileName,
         value: fw._id
       }))
     : []
