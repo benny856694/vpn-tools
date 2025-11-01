@@ -38,7 +38,7 @@
       <div v-if="isTargetFirmwarePending || isSourcesPending">Loading...</div>
       <n-form v-else inline>
         <NFormItem path="md5" label="SN">
-          <NInput v-model:value="sn" placeholder="Enter Device SN" />
+          <NInput v-model:value.trim="sn" placeholder="Enter Device SN" />
         </NFormItem>
         <NFormItem path="md5" label="Current Version">
           <NSelect
