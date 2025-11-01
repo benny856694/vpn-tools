@@ -47,7 +47,8 @@ export default defineConfig(({ mode }) => ({
     }
   },
   build: {
-    sourcemap: mode === 'production' ? false : 'inline'
+    sourcemap: mode === 'production' ? false : 'inline',
+    outDir: 'docs'
   },
   server: {
     port: 1337
