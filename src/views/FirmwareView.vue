@@ -36,39 +36,39 @@
     </n-form>
     <div class="mt-2">
       <div v-if="isTargetFirmwarePending || isSourcesPending">Loading...</div>
-      <n-form v-else inline>
+      <n-form v-else inline :label-width="160">
         <NFormItem path="md5" label="SN">
-          <NInput v-model:value.trim="sn" placeholder="Enter Device SN" />
+          <NInput v-model:value.trim="sn" placeholder="输入序列号" />
         </NFormItem>
-        <NFormItem path="md5" label="Current Version">
+        <NFormItem path="md5" label="当前版本">
           <NSelect
             v-model:value="deviceCurVer"
             :options="curVerOptions"
-            placeholder="Select Current Version"
+            placeholder="选择版本"
           />
         </NFormItem>
-        <NFormItem path="size" label="Target Firmware">
+        <NFormItem path="size" label="目标固件版本">
           <NSelect
             v-model:value="targetFirmwareId"
             :options="targetFirmwareOptions"
-            placeholder="Select Target Firmware"
+            placeholder="选择目标固件版本"
           />
         </NFormItem>
         <NFormItem
           ref="rPasswordFormItemRef"
           first
           path="Source"
-          label="Firmware Source"
+          label="固件存储来源"
         >
           <NSelect
             v-model:value="sourceId"
             :options="sourceOptions"
-            placeholder="Select Source"
+            placeholder="选择固件存储来源"
           />
         </NFormItem>
         <n-form-item>
           <NButton type="primary" :disabled="!url" @click="handleUpdate">
-            Upgrade
+            升级
           </NButton>
         </n-form-item>
         <n-form-item>
@@ -78,7 +78,7 @@
                 <OpenInNewFilled />
               </NIcon>
             </template>
-            Test Download
+            测试固件下载
           </NButton>
         </n-form-item>
       </n-form>
