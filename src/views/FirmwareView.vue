@@ -71,6 +71,16 @@
             Upgrade
           </NButton>
         </n-form-item>
+        <n-form-item>
+          <NButton :disabled="!firmwareUrl" @click="testDownload">
+            <template #icon>
+              <NIcon>
+                <OpenInNewFilled />
+              </NIcon>
+            </template>
+            Test Download
+          </NButton>
+        </n-form-item>
       </n-form>
       <p>{{ url }}</p>
       <NInput
@@ -91,6 +101,7 @@ import { Doc, Id } from '../../convex/_generated/dataModel'
 import { NForm, NInput, NButton, NFormItem, NSelect } from 'naive-ui'
 import type { FormInst } from 'naive-ui'
 import { computed, ref } from 'vue'
+import { OpenInNewFilled } from '@vicons/material'
 
 enum DeviceCurrentVersion {
   China,
@@ -193,6 +204,30 @@ const url = computed(() => {
   }
 })
 
+const firmwareUrl = computed(() => {
+  if (!targetFirmwareId.value) {
+    return ''
+  }
+  if (!sourceId.value) {
+    return ''
+  }
+  const targetFirmware = targetFirmwares.value?.find(
+    (fw: Doc<'firmwares'>) => fw._id === targetFirmwareId.value
+  )
+  const source = sources.value?.find(
+    (src: Doc<'sources'>) => src._id === sourceId.value
+  )
+
+  if (!targetFirmware) {
+    return ''
+  }
+  if (!source) {
+    return ''
+  }
+
+  return `${source.baseUrl}${targetFirmware.fileName}`
+})
+
 const handleUpdate = async (e: MouseEvent) => {
   e.preventDefault()
   try {
@@ -205,6 +240,29 @@ const handleUpdate = async (e: MouseEvent) => {
     })
     const text = await resp.json()
     updateResult.value = JSON.stringify(text, null, 2)
+  } catch (err) {
+    updateResult.value = `Error: ${err}`
+  }
+}
+
+const testDownload = async (e: MouseEvent) => {
+  e.preventDefault()
+ 
+  try {
+    const newWin = window.open(firmwareUrl.value, '_blank', 'noopener,noreferrer')
+    if (newWin) {
+      newWin.focus?.()
+      updateResult.value = 'Opened firmware URL in a new window'
+      return
+    }
+    // Fallback for strict popup blockers: create an anchor and click it
+    const a = document.createElement('a')
+    a.href = firmwareUrl.value
+    a.target = '_blank'
+    a.rel = 'noopener noreferrer'
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
   } catch (err) {
     updateResult.value = `Error: ${err}`
   }
