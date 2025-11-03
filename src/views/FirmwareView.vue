@@ -286,7 +286,8 @@ const handleAdd = async (e: MouseEvent) => {
       await mutate({
         fileName: formValue.value.fileName,
         md5: formValue.value.md5,
-        size: formValue.value.size
+        size: formValue.value.size,
+        name: formValue.value.name
       })
       formValue.value.md5 = ''
       formValue.value.size = ''

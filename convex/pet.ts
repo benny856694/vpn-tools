@@ -3,7 +3,7 @@ import { v } from 'convex/values'
 
 export const addFirmware = mutation({
   args: {
-    name: v.optional(v.string()),
+    name: v.string(),
     fileName: v.string(),
     md5: v.string(),
     size: v.string()
