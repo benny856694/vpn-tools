@@ -103,7 +103,7 @@ import { api } from '../../convex/_generated/api'
 import { Doc, Id } from '../../convex/_generated/dataModel'
 import { NForm, NInput, NButton, NFormItem, NSelect } from 'naive-ui'
 import type { FormInst } from 'naive-ui'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { OpenInNewFilled } from '@vicons/material'
 
 enum DeviceCurrentVersion {
@@ -229,6 +229,10 @@ const firmwareUrl = computed(() => {
   }
 
   return `${source.baseUrl}${targetFirmware.fileName}`
+})
+
+watch(targetFirmwares, () => {
+  targetFirmwareId.value = null
 })
 
 const handleUpdate = async (e: MouseEvent) => {
