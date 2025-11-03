@@ -36,7 +36,7 @@
     </n-form>
     <div class="mt-2">
       <div v-if="isTargetFirmwarePending || isSourcesPending">Loading...</div>
-      <n-form v-else inline :label-width="160">
+      <n-form v-else inline :label-width="180">
         <NFormItem path="md5" label="SN">
           <NInput v-model:value.trim="sn" placeholder="输入序列号" />
         </NFormItem>
@@ -44,6 +44,7 @@
           <NSelect
             v-model:value="deviceCurVer"
             :options="curVerOptions"
+            style="min-width: 180px"
             placeholder="选择版本"
           />
         </NFormItem>
@@ -51,6 +52,7 @@
           <NSelect
             v-model:value="targetFirmwareId"
             :options="targetFirmwareOptions"
+            style="min-width: 180px"
             placeholder="选择目标固件版本"
           />
         </NFormItem>
@@ -63,12 +65,13 @@
           <NSelect
             v-model:value="sourceId"
             :options="sourceOptions"
+            style="min-width: 180px"
             placeholder="选择固件存储来源"
           />
         </NFormItem>
         <n-form-item>
           <NButton type="primary" :disabled="!url" @click="handleUpdate">
-            升级
+            推送升级包
           </NButton>
         </n-form-item>
         <n-form-item>
@@ -86,7 +89,7 @@
       <NInput
         v-model:value="updateResult"
         type="textarea"
-        placeholder="Update Result"
+        placeholder="推送结果"
         readonly
         :autosize="{ minRows: 5 }"
       />
@@ -231,7 +234,7 @@ const firmwareUrl = computed(() => {
 const handleUpdate = async (e: MouseEvent) => {
   e.preventDefault()
   try {
-    updateResult.value = 'Updating...'
+    updateResult.value = '升级中...'
     //change the fetch header: accept-language to en-US,en;q=0.9
     const resp = await fetch(url.value, {
       headers: {
@@ -247,9 +250,13 @@ const handleUpdate = async (e: MouseEvent) => {
 
 const testDownload = async (e: MouseEvent) => {
   e.preventDefault()
- 
+
   try {
-    const newWin = window.open(firmwareUrl.value, '_blank', 'noopener,noreferrer')
+    const newWin = window.open(
+      firmwareUrl.value,
+      '_blank',
+      'noopener,noreferrer'
+    )
     if (newWin) {
       newWin.focus?.()
       updateResult.value = 'Opened firmware URL in a new window'
