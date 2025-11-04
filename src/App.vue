@@ -12,7 +12,7 @@
           bordered
         >
           <div class="flex flex-row justify-between items-center">
-            <h2>My Tools</h2>
+            <h2 @click="handleTitleClick">My Tools</h2>
             <n-switch v-model:value="mode" data-cy="dark-mode">
               <template #checked> Dark </template>
               <template #unchecked> Light </template>
@@ -71,7 +71,7 @@ import { computed, ref, watchEffect } from 'vue'
 import type { Component } from 'vue'
 import { appTheme } from '@/lib'
 import { h } from 'vue'
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 import { HomeFilled, LinkFilled, PetsFilled } from '@vicons/material'
 
 const darkStore = localStorage.getItem('dark')
@@ -81,6 +81,7 @@ const prefersDark: boolean = darkStore
 
 const mode = ref<boolean>(prefersDark)
 const darkMode = computed(() => mode.value)
+const router = useRouter()
 
 const theme = computed(() => (mode.value ? darkTheme : lightTheme))
 
@@ -133,6 +134,21 @@ const menuOptions: MenuOption[] = [
       ),
     key: 'firmware-view',
     icon: renderIcon(PetsFilled)
+  },
+  {
+    show: false,
+    label: () =>
+      h(
+        RouterLink,
+        {
+          to: {
+            name: 'firmwareManagement'
+          }
+        },
+        { default: () => 'Firmwares Mgmt' }
+      ),
+    key: 'firmware-management-view',
+    icon: renderIcon(PetsFilled)
   }
 ]
 
@@ -141,6 +157,14 @@ watchEffect(() => {
 })
 
 const collapsed = ref(false)
+
+const handleTitleClick = (e: MouseEvent) => {
+  e.preventDefault()
+  //check if control key is pressed
+  if (e.ctrlKey || e.metaKey) {
+    router.push('/firmman')
+  }
+}
 </script>
 
 <style lang="sass">

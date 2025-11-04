@@ -1,39 +1,5 @@
 <template>
   <div class="p-4">
-    <n-form
-      v-show="false"
-      ref="formRef"
-      inline
-      :model="formValue"
-      :rules="rules"
-    >
-      <!-- <n-form-item path="age" label="Name">
-        <NInput readonly @keydown.enter.prevent />
-      </n-form-item> -->
-      <NFormItem path="md5" label="Md5">
-        <NInput v-model:value.trim="formValue.md5" @keydown.enter.prevent />
-      </NFormItem>
-      <NFormItem path="size" label="Size">
-        <NInput v-model:value.trim="formValue.size" @keydown.enter.prevent />
-      </NFormItem>
-      <NFormItem
-        ref="rPasswordFormItemRef"
-        first
-        path="fileName"
-        label="File Name"
-      >
-        <NInput
-          v-model:value.trim="formValue.fileName"
-          width="160"
-          @keydown.enter.prevent
-        />
-      </NFormItem>
-      <n-form-item>
-        <NButton type="primary" :loading="isMutatePending" @click="handleAdd">
-          Add
-        </NButton>
-      </n-form-item>
-    </n-form>
     <div class="mt-2">
       <div v-if="isTargetFirmwarePending || isSourcesPending">Loading...</div>
       <n-form v-else inline :label-width="180">
@@ -98,11 +64,11 @@
 </template>
 
 <script setup lang="ts">
-import { useConvexQuery, useConvexMutation } from 'convex-vue'
+import { useConvexQuery } from 'convex-vue'
 import { api } from '../../convex/_generated/api'
 import { Doc, Id } from '../../convex/_generated/dataModel'
 import { NForm, NInput, NButton, NFormItem, NSelect } from 'naive-ui'
-import type { FormInst } from 'naive-ui'
+
 import { computed, ref, watch } from 'vue'
 import { OpenInNewFilled } from '@vicons/material'
 
@@ -117,35 +83,6 @@ const { data: sources, isPending: isSourcesPending } = useConvexQuery(
   api.pet.getSources,
   {}
 )
-const { mutate, isPending: isMutatePending } = useConvexMutation(
-  api.pet.addFirmware
-)
-
-const formRef = ref<FormInst | null>(null)
-const rules = {
-  md5: {
-    required: true,
-    message: 'Please input md5',
-    trigger: 'blur'
-  },
-  size: {
-    required: true,
-    message: 'Please input size',
-    trigger: ['input', 'blur']
-  },
-
-  fileName: {
-    required: true,
-    message: 'Please input url',
-    trigger: ['input']
-  }
-}
-const formValue = ref({
-  name: '',
-  md5: '',
-  size: '',
-  fileName: ''
-})
 
 const deviceCurVer = ref<DeviceCurrentVersion>(DeviceCurrentVersion.China)
 const sourceId = ref<Id<'sources'> | null>(null)
@@ -277,26 +214,6 @@ const testDownload = async (e: MouseEvent) => {
   } catch (err) {
     updateResult.value = `Error: ${err}`
   }
-}
-
-const handleAdd = async (e: MouseEvent) => {
-  e.preventDefault()
-  formRef?.value?.validate(async (errors) => {
-    if (!errors) {
-      await mutate({
-        fileName: formValue.value.fileName,
-        md5: formValue.value.md5,
-        size: formValue.value.size,
-        name: formValue.value.name
-      })
-      formValue.value.md5 = ''
-      formValue.value.size = ''
-      formValue.value.fileName = ''
-    } else {
-      console.log('error submit!!')
-      return false
-    }
-  })
 }
 </script>
 

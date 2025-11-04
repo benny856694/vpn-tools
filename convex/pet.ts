@@ -29,3 +29,13 @@ export const getSources = query({
     return await ctx.db.query('sources').collect()
   }
 })
+
+//remove firmware by id
+export const removeFirmware = mutation({
+  args: {
+    id: v.id('firmwares')
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.delete(args.id)
+  }
+})
