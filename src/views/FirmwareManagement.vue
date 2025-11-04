@@ -28,7 +28,7 @@
         </NButton>
       </n-form-item>
       <n-form-item>
-        <NButton type="primary" :loading="isMutatePending" @click="handlePaste">
+        <NButton :loading="isMutatePending" @click="handlePaste">
           粘贴
         </NButton>
       </n-form-item>
