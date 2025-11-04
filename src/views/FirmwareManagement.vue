@@ -1,7 +1,7 @@
 <template>
   <div class="p-4">
     <n-form ref="formRef" inline :model="formValue" :rules="rules">
-      <n-form-item path="name" label="Name">
+      <n-form-item path="name" label="名称(你自己好记的名字)">
         <NInput v-model:value.trim="formValue.name" @keydown.enter.prevent />
       </n-form-item>
       <NFormItem path="md5" label="Md5">
@@ -24,7 +24,12 @@
       </NFormItem>
       <n-form-item>
         <NButton type="primary" :loading="isMutatePending" @click="handleAdd">
-          Add
+          添加
+        </NButton>
+      </n-form-item>
+      <n-form-item>
+        <NButton type="primary" :loading="isMutatePending" @click="handlePaste">
+          粘贴
         </NButton>
       </n-form-item>
     </n-form>
@@ -121,6 +126,46 @@ const handleAdd = async (e: MouseEvent) => {
       return false
     }
   })
+}
+
+const handlePaste = async (e: MouseEvent) => {
+  e.preventDefault()
+  //read text from prompt
+  const text = prompt('粘贴JSON格式的固件信息到此处:')
+  if (!text) {
+    return
+  }
+
+  //   {
+  //                 "id": "1980150574224281601",
+  //                 "name": "psj_net0.3.279.17851_en.zip",
+  //                 "version": "0.3.279.17851",
+  //                 "url": "https://material.pick-fun.com/upgrade/package/psj_net0.3.279.17851_en.zip",
+  //                 "type": 3,
+  //                 "size": "68927551",
+  //                 "md5": "45f199e4034f80cf4c92932ef3a80c23",
+  //                 "model": "AV000V0.3",
+  //                 "status": 1,
+  //                 "forceUpgrade": false,
+  //                 "description": "fix bugs",
+  //                 "createTime": "2025-10-20 13:54:21",
+  //                 "updateTime": "2025-10-20 18:45:32",
+  //                 "isPop": false
+  //}
+
+  const obj = JSON.parse(text)
+  if (obj) {
+    formValue.value.name = ''
+    const lastSlashIndex = obj.url.lastIndexOf('/')
+
+    // Extract the substring starting one position after the last slash
+    const filename = obj.url.substring(lastSlashIndex + 1)
+    formValue.value.fileName = filename
+    formValue.value.md5 = obj.md5
+    formValue.value.size = obj.size
+  } else {
+    alert('Clipboard content is not in the correct format.')
+  }
 }
 </script>
 
