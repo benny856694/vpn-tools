@@ -171,20 +171,18 @@ const firmwareUrl = computed(() => {
 })
 
 watch(targetFirmwares, () => {
-  targetFirmwareId.value = null
+  if (targetFirmwares.value?.find((x) => x._id === targetFirmwareId.value)) {
+    // do nothing
+  } else {
+    targetFirmwareId.value = null
+  }
 })
 
 watch(sources, () => {
-  if (sources.value && sources.value.length > 0) {
-    if (
-      sources.value.find(
-        (src: Doc<'sources'>) => src._id === main.firmwareSourceId
-      )
-    ) {
-      // do nothing, keep the selected source id
-    } else {
-      main.selectedSourceId = null
-    }
+  if (sources.value?.find((x) => x._id === main.firmwareSourceId)) {
+    // do nothing
+  } else {
+    main.selectedSourceId = null
   }
 })
 
