@@ -29,10 +29,11 @@
           label="固件存储来源"
         >
           <NSelect
-            v-model:value="sourceId"
+            :value="main.firmwareSourceId"
             :options="sourceOptions"
             style="min-width: 180px"
             placeholder="选择固件存储来源"
+            @update:value="(val) => (main.selectedSourceId = val)"
           />
         </NFormItem>
         <n-form-item>
@@ -71,6 +72,7 @@ import { NForm, NInput, NButton, NFormItem, NSelect } from 'naive-ui'
 
 import { computed, ref, watch } from 'vue'
 import { OpenInNewFilled } from '@vicons/material'
+import { useMainStore } from '@/store'
 
 enum DeviceCurrentVersion {
   China,
@@ -85,10 +87,10 @@ const { data: sources, isPending: isSourcesPending } = useConvexQuery(
 )
 
 const deviceCurVer = ref<DeviceCurrentVersion>(DeviceCurrentVersion.China)
-const sourceId = ref<Id<'sources'> | null>(null)
 const targetFirmwareId = ref<Id<'firmwares'> | null>(null)
 const sn = ref('')
 const updateResult = ref<string>('')
+const main = useMainStore()
 
 const curVerOptions = [
   { label: '中国大陆', value: DeviceCurrentVersion.China },
@@ -117,7 +119,7 @@ const url = computed(() => {
   if (!targetFirmwareId.value) {
     return ''
   }
-  if (!sourceId.value) {
+  if (!main.firmwareSourceId) {
     return ''
   }
   if (!sn.value) {
@@ -127,7 +129,7 @@ const url = computed(() => {
     (fw: Doc<'firmwares'>) => fw._id === targetFirmwareId.value
   )
   const source = sources.value?.find(
-    (src: Doc<'sources'>) => src._id === sourceId.value
+    (src: Doc<'sources'>) => src._id === main.firmwareSourceId
   )
 
   if (!targetFirmware) {
@@ -148,14 +150,14 @@ const firmwareUrl = computed(() => {
   if (!targetFirmwareId.value) {
     return ''
   }
-  if (!sourceId.value) {
+  if (!main.firmwareSourceId) {
     return ''
   }
   const targetFirmware = targetFirmwares.value?.find(
     (fw: Doc<'firmwares'>) => fw._id === targetFirmwareId.value
   )
   const source = sources.value?.find(
-    (src: Doc<'sources'>) => src._id === sourceId.value
+    (src: Doc<'sources'>) => src._id === main.firmwareSourceId
   )
 
   if (!targetFirmware) {
@@ -170,6 +172,20 @@ const firmwareUrl = computed(() => {
 
 watch(targetFirmwares, () => {
   targetFirmwareId.value = null
+})
+
+watch(sources, () => {
+  if (sources.value && sources.value.length > 0) {
+    if (
+      sources.value.find(
+        (src: Doc<'sources'>) => src._id === main.firmwareSourceId
+      )
+    ) {
+      // do nothing, keep the selected source id
+    } else {
+      main.selectedSourceId = null
+    }
+  }
 })
 
 const handleUpdate = async (e: MouseEvent) => {
