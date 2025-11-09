@@ -12,7 +12,6 @@ export const useMainStore = defineStore('main', {
   },
   getters: {
     count: ({ counter }) => counter,
-    firmwareSourceId: ({ selectedSourceId }) => selectedSourceId
   },
   actions: {
     incrementCounter(count: number) {

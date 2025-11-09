@@ -29,11 +29,10 @@
           label="固件存储来源"
         >
           <NSelect
-            :value="main.firmwareSourceId"
+            v-model:value="selectedSourceId"
             :options="sourceOptions"
             style="min-width: 180px"
             placeholder="选择固件存储来源"
-            @update:value="(val) => (main.selectedSourceId = val)"
           />
         </NFormItem>
         <n-form-item>
@@ -73,6 +72,7 @@ import { NForm, NInput, NButton, NFormItem, NSelect } from 'naive-ui'
 import { computed, ref, watch } from 'vue'
 import { OpenInNewFilled } from '@vicons/material'
 import { useMainStore } from '@/store'
+import { storeToRefs } from 'pinia'
 
 enum DeviceCurrentVersion {
   China,
@@ -90,7 +90,7 @@ const deviceCurVer = ref<DeviceCurrentVersion>(DeviceCurrentVersion.China)
 const targetFirmwareId = ref<Id<'firmwares'> | null>(null)
 const sn = ref('')
 const updateResult = ref<string>('')
-const main = useMainStore()
+const { selectedSourceId } = storeToRefs( useMainStore())
 
 const curVerOptions = [
   { label: '中国大陆', value: DeviceCurrentVersion.China },
@@ -119,7 +119,7 @@ const url = computed(() => {
   if (!targetFirmwareId.value) {
     return ''
   }
-  if (!main.firmwareSourceId) {
+  if (!selectedSourceId) {
     return ''
   }
   if (!sn.value) {
@@ -129,7 +129,7 @@ const url = computed(() => {
     (fw: Doc<'firmwares'>) => fw._id === targetFirmwareId.value
   )
   const source = sources.value?.find(
-    (src: Doc<'sources'>) => src._id === main.firmwareSourceId
+    (src: Doc<'sources'>) => src._id === selectedSourceId.value
   )
 
   if (!targetFirmware) {
@@ -150,14 +150,14 @@ const firmwareUrl = computed(() => {
   if (!targetFirmwareId.value) {
     return ''
   }
-  if (!main.firmwareSourceId) {
+  if (!selectedSourceId.value) {
     return ''
   }
   const targetFirmware = targetFirmwares.value?.find(
     (fw: Doc<'firmwares'>) => fw._id === targetFirmwareId.value
   )
   const source = sources.value?.find(
-    (src: Doc<'sources'>) => src._id === main.firmwareSourceId
+    (src: Doc<'sources'>) => src._id === selectedSourceId.value
   )
 
   if (!targetFirmware) {
@@ -179,10 +179,10 @@ watch(targetFirmwares, () => {
 })
 
 watch(sources, () => {
-  if (sources.value?.find((x) => x._id === main.firmwareSourceId)) {
+  if (sources.value?.find((x) => x._id === selectedSourceId.value)) {
     // do nothing
   } else {
-    main.selectedSourceId = null
+    selectedSourceId.value = null
   }
 })
 
@@ -199,7 +199,7 @@ const handleUpdate = async (e: MouseEvent) => {
     const text = await resp.json()
     updateResult.value = JSON.stringify(text, null, 2)
   } catch (err) {
-    updateResult.value = `Error: ${err}`
+    updateResult.value = `错误: ${err}`
   }
 }
 
